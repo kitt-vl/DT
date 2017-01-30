@@ -1,0 +1,13 @@
+% layout 'default';
+
+%= tag 'div', (class => 'col-md-8') => begin
+  %= tag 'h3' => 'Создание нового меню'
+  %= tag 'div' => begin
+    %= form_for '/admin/menus/new', (method => 'POST') => begin
+      %= tag 'div' => (class => 'list') => begin
+        %= text_field 'name', placeholder => 'Название'
+      % end
+      %= submit_button 'Создать' => (class => 'btn btn-info btn-list')
+    % end
+  % end
+% end

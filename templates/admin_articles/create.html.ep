@@ -1,0 +1,38 @@
+% layout 'default';
+
+<div class="col-md-8">
+  <h3>Создание статьи</h3>
+  <form role="form" method="post" enctype="multipart/form-data" action="/admin/articles/new">
+    <div class="article-new">
+      <label>
+        Название статьи
+        <input type="text" placeholder="Введите название статьи" name="title" value="<%= $self->param('title') %>"/>
+      </label>
+      <br>
+      <label>
+        Body <br>
+        <textarea name="body">Введите текст статьи</textarea>
+      </label>
+      <br>
+      <label>
+        URL
+        <input type="text" placeholder="/articles/" name="url" value="/articles/" value="<%= $self->param('url') %>"/>
+        % if (my $err = validation->error('url')) {
+          <p class="bg-danger">
+            %== '<span id="empty">Заполните URL</span>' if $err->[0] eq 'required'
+            %== '<span id="regular">URL должен начинаться с /articles/ !</span>' if $err->[0] eq 'like'
+            %== '<span id="unique">Этот URL уже занят!</span>' if $err->[0] eq 'uniqueURL'
+          </p>
+        % }
+      </label>
+      <label>
+        Фото статьи
+        <input type="file" name="image" accept="image/*">
+        % if($msg) {
+          <span class="bg-danger"><%= $msg %></span>
+        % }
+      </label>
+    </div>
+    <button type="submit" class="btn btn-info user-edit-btn">Создать статью</button>
+  </form>
+</div>

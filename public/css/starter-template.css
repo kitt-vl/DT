@@ -1,0 +1,72 @@
+body {
+  padding-top: 50px;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+#admin-action a {
+  display: block;
+  width: 200px;
+  margin-bottom: 10px;
+}
+.list {
+  text-align: left;
+}
+.user-list-description {
+  display: inline-block;
+  width: 30%;
+}
+.id {
+  font-weight: bold;
+}
+.user-list-role {
+  color: green;
+}
+.icons .glyphicon {
+  color: black;
+}
+.icons .glyphicon:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.icons .glyphicon:focus {
+  text-decoration: none;
+}
+.user-update {
+  text-align: left;
+}
+.btn-list {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.article-description {
+  display: inline-block;
+  width: 80%;
+}
+.article-manage {
+  margin-top: 20px;
+}
+.article-new {
+  text-align: left;
+}
+.article-update {
+  text-align: left;
+}
+.menu-description {
+  display: inline-block;
+  width: 20%;
+}
+.list-item {
+  margin-right: 20px;
+}
+.list-item:last-child {
+  margin-right: 0;
+}
+.menu-item {
+  display: inline-block;
+  width: 50%;
+}
+.menu-list {
+  margin-top: 20px;
+}

@@ -1,0 +1,20 @@
+% layout 'default';
+
+<div class="col-md-8">
+  <h3>Список пользователей</h3>
+  <div class="list" id="user-list">
+    % while(my $next = $list->hash) {
+        <div class="user-list-description">
+          <span class="id"><%= $next->{id} %></span>
+          <span class="user-list-email" id=<%= $next->{id} %> ><%= $next->{email} %></span>
+          <span class="user-list-role"><sub><%= $next->{role_name} %></sub></span>
+        </div>
+        <span class="icons">
+          <a class="glyphicon glyphicon-user" href="#"></a>
+          <a class="glyphicon glyphicon-pencil" href="<%= '/admin/users/edit/'.$next->{id} %>"></a>
+          <a class="glyphicon glyphicon-remove" href="<%= '/admin/users/remove/'.$next->{id} %>"></a>
+        </span>
+        <br>
+    % }
+  </div>
+</div>

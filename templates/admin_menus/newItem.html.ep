@@ -1,0 +1,19 @@
+% layout 'default';
+
+%= tag 'div', (class => 'col-md-8') => begin
+  %= tag 'h3' => 'Создание нового пункта меню'
+  %= tag 'div' => begin
+    %= form_for '/admin/menus/edit/'.$id.'/new', (method => 'POST') => begin
+      %= tag 'div' => (class => 'list') => begin
+        %= text_field 'name', placeholder => 'Название', (class => 'list-item')
+        %= text_field 'url', placeholder => 'Url', (class => 'list-item')
+        <select class="list-item" name="role">
+          % while(my $next = $roles_list->hash) {
+            <option value="<%= $next->{id} %>"><%= $next->{name} %></option>
+          % }
+        </select>
+      % end
+      %= submit_button 'Создать' => (class => 'btn btn-info btn-list')
+    % end
+  % end
+% end

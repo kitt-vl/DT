@@ -1,0 +1,30 @@
+% layout 'default';
+
+<div class="col-md-8">
+  <h3>Редактирование статьи</h3>
+  <form role="form" method="post" enctype="multipart/form-data" action="/admin/articles/edit">
+    <div class="article-update">
+      <label>
+        ID
+        <input type="text" value="<%= $id %>" disabled />
+      </label>
+      <input type="text" value="<%= $id %>" name="id" hidden />
+      <br>
+      <label>
+        Title
+        <input type="text" value="<%= $title %>" name="title" />
+      </label>
+      <br>
+      <label>
+        Body <br>
+        <textarea name="body"><%= $body %></textarea>
+      </label>
+      <br>
+      <label>
+        Фото статьи
+        <input type="file" name="image" accept="image/*">
+      </label>
+    </div>
+    <button type="submit" class="btn btn-info article-edit-btn">Update article</button>
+  </form>
+</div>

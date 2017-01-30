@@ -1,0 +1,23 @@
+% layout 'default';
+
+<div class="col-md-8">
+  <h3>Список статей</h3>
+  <div class="list" id="article-list">
+    % while(my $next = $list->hash) {
+        <div class="article-description" id="article-description">
+          <span class="id"><%= $next->{id} %></span>
+          <span class="article-title" id="<%= $next->{id} %>"><%= $next->{title} %></span>
+          <span class="article-author"><%= $next->{author} %></span>
+          <span class="article-date"><%= $next->{date_create} %></span>
+          <span class="article-date"><sub><%= $next->{date_update} %></sub></span>
+          <a class="article-url" href="<%= $next->{url} %>">Ссылка</a>
+        </div>
+        <span class="icons">
+          <a class="glyphicon glyphicon-pencil" href="<%= '/admin/articles/edit/'.$next->{id} %>"></a>
+          <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/delete/'.$next->{id} %>"></a>
+        </span>
+    % }
+  </div>
+  <a class="btn btn-info btn-list" href="/admin/articles/new">Создать статью</a>
+  <a class="btn btn-info btn-list" href="/admin/articles/delete">Удалить все статьи</a>
+</div>

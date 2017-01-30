@@ -1,0 +1,19 @@
+% layout 'default';
+
+%= tag 'div', (class => 'col-md-8') => begin
+  %= tag 'h3' => 'Редактирование пункта меню'
+  %= tag 'div' => begin
+    %= form_for '/admin/menus/edit/'.$menu_id.'/'.$item_id, (method => 'POST') => begin
+      %= tag 'div' => (class => 'list') => begin
+        %= text_field 'name', placeholder => 'Название', (class => 'list-item'), (value => $name)
+        %= text_field 'url', placeholder => 'Url', (class => 'list-item'), value => $url
+        <select class="list-item" name="role">
+          % while(my $next = $roles_list->hash) {
+            <option value="<%= $next->{id} %>" <% if($role==$next->{id}) { %> selected <% } %>><%= $next->{name} %></option>
+          % }
+        </select>
+      % end
+      %= submit_button 'Изменить' => (class => 'btn btn-info btn-list')
+    % end
+  % end
+% end

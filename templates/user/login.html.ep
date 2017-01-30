@@ -1,0 +1,27 @@
+% layout 'default';
+
+<form class="form-signin" role="form" method="post" action="/login">
+  <h2 class="form-signin-heading">Please sign in</h2>
+  <input type="text" class="form-control" placeholder="Email address"
+  name="email" value="<%= $self->param('email') %>" autofocus>
+  <input type="password" class="form-control" placeholder="Password"
+  name="password" value="<%= $self->param('password') %>">
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  % if (my $err = validation->error('em')) {
+      <p class="bg-danger" id="emailError">
+        %== '<span id="empty">Поле email пустое!</span>'if $err->[0] eq 'required'
+        %== '<span id="size">Email должен содержать от 5 до 30 символов!</span>' if $err->[0] eq 'size'
+        %== '<span id="regular">Пример email: example@mail.ru</span>' if $err->[0] eq 'emailCheck'
+        %== '<span id="registr">Этот пользователь еще не зарегистрирован!</span>' if $err->[0] eq 'emailExist'
+      </p>
+  % }
+  % if (my $err = validation->error('pas')) {
+      <p class="bg-danger" id="passwordError">
+        %== '<span id="empty">Поле password пустое!</span>' if $err->[0] eq 'required'
+        %== '<span id="size">Password должен содержать от 5 до 30 символов!</span>' if $err->[0] eq 'size'
+        %== '<span id="regular">Password может иметь в себе цифры, буквы и знак подчеркивания</span>' if $err->[0] eq 'passwordCheck'
+        %== '<span id="registr">Password неверный!</span>' if $err->[0] eq 'passwordRight'
+      </p>
+  % }
+  <p class="signup"><a href="/signup">Sign up</a></p>
+</form>

@@ -1,0 +1,5 @@
+% layout 'default';
+
+<div class="col-md-8">
+  <h3>Выберите действие слева</h3>
+</div>
