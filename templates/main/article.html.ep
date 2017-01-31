@@ -4,15 +4,19 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="intro">
-                    <h1 class="text-center" id="title"><%= $title %></h1>
-                    <p class="text-center"><span class="by">by</span> <a href="#"><%= $author %></a><br>
-                    <span class="date"> <%= $date %></span></p>
-                </div>
-                <img src="<%= $source %>" height="300px">
-                <div class="text">
+            <h1 class="text-left" id="title"><%= $title %></h1>
+                % if($source) {
+                  <img src="<%= $source %>" height="300px">
+                % }
+                <div class="text text-left">
                     <%== $body %> <br>
                     <span class="date"><% if($update) { %>Отредактировано: <%= $update %> <% } %></span>
+                </div>
+
+                <div class="intro">
+
+                    <p class="text-left"><span class="by">by</span> <a href="#"><%= $author %></a><br>
+                    <span class="date"> <%= $date %></span></p>
                 </div>
             </div>
         </div>
