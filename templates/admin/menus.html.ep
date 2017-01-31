@@ -1,10 +1,11 @@
 % layout 'default';
 
-<div class="col-md-8">
+<div class="col-md-8 admin">
   <h3>Список меню</h3>
+  <a class="btn btn-info btn-list" href="/admin/menus/new">Добавить меню</a>
   <div class="list" id="menu-list">
     % while(my $next = $list->hash) {
-        <p>
+        <div class="list-item">
           <div class="menu-description">
             <span class="menu-name" id="<%= $next->{name} %>"><%= $next->{name} %></span>
           </div>
@@ -12,8 +13,7 @@
             <a class="glyphicon glyphicon-pencil" href="<%= '/admin/menus/edit/'.$next->{id} %>"></a>
             <a class="glyphicon glyphicon-remove" href="<%= '/admin/menus/remove/'.$next->{id} %>"></a>
           </span>
-        </p>
+        </div>
     % }
   </div>
-  <a class="btn btn-info btn-list" href="/admin/menus/new">Добавить меню</a>
 </div>

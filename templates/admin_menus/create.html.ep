@@ -1,6 +1,6 @@
 % layout 'default';
 
-%= tag 'div', (class => 'col-md-8') => begin
+%= tag 'div', (class => 'col-md-8 admin') => begin
   %= tag 'h3' => 'Создание нового меню'
   %= tag 'div' => begin
     %= form_for '/admin/menus/new', (method => 'POST') => begin

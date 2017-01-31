@@ -1,6 +1,6 @@
 % layout 'default';
 
-<div class="col-md-8">
+<div class="col-md-8 admin">
   <h3>Редактирование меню</h3>
   <div class="list" id="<%= 'menu-edit-'.$id %>">
     <form method="post" action="<%= '/admin/menus/edit/'.$id %>">
@@ -12,17 +12,19 @@
     </form>
     <div id="menu-item-list" class="menu-list">
       % while(my $next = $list->hash) {
-          <div class="menu-item" id="<%= $next->{id} %>">
-            <span id="<%= $next->{name} %>">
-              %= $next->{name}
+          <div class="list-item">
+            <div class="menu-item" id="<%= $next->{id} %>">
+              <span id="<%= $next->{name} %>">
+                %= $next->{name}
+              </span>
+              %= link_to $next->{url} => $next->{url}
+              <sub><%= $next->{role_name} %></sub>
+            </div>
+            <span class="icons">
+              <a class="glyphicon glyphicon-pencil" href="<%= '/admin/menus/edit/'.$id.'/'.$next->{id} %>"></a>
+              <a class="glyphicon glyphicon-remove" href="<%= '/admin/menus/remove/'.$id.'/'.$next->{id} %>"></a>
             </span>
-            %= link_to $next->{url} => $next->{url}
-            <sub><%= $next->{role_name} %></sub>
           </div>
-          <span class="icons">
-            <a class="glyphicon glyphicon-pencil" href="<%= '/admin/menus/edit/'.$id.'/'.$next->{id} %>"></a>
-            <a class="glyphicon glyphicon-remove" href="<%= '/admin/menus/remove/'.$id.'/'.$next->{id} %>"></a>
-          </span>
       % }
     </div>
     %= link_to 'Добавить ссылку' => '/admin/menus/edit/'.$id.'/new' => (class => 'btn btn-info btn-list')

@@ -12,7 +12,7 @@ my $db = $sql->db;
 my $query;
 
 my $t = Test::Mojo->new('Test2');
-$t->ua->max_redirects(1);
+$t->ua->max_redirects(10);
 
 say "Registration form check start:\n\n";
 

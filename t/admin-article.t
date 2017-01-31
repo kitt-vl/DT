@@ -16,7 +16,7 @@ my $query;
 my $results;
 
 my $t = Test::Mojo->new('Test2');
-$t->ua->max_redirects(1);
+$t->ua->max_redirects(10);
 
 say "\n\nArticle test start\n\n";
 say "Check page with articles\n";

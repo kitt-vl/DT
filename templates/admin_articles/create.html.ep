@@ -1,6 +1,6 @@
 % layout 'default';
 
-<div class="col-md-8">
+<div class="col-md-8 admin">
   <h3>Создание статьи</h3>
   <form role="form" method="post" enctype="multipart/form-data" action="/admin/articles/new">
     <div class="article-new">

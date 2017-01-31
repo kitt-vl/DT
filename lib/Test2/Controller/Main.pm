@@ -10,7 +10,10 @@ use utf8;
 sub main {
   my $self = shift;
 
-  $self->render();
+  my $query = 'SELECT url FROM menu_items WHERE main_page=1 AND menu_id=1';
+  my $url = $self->db->query($query)->hash->{url};
+
+  $self->redirect_to($url);
 }
 
 sub article {

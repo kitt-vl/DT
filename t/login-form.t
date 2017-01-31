@@ -7,7 +7,7 @@ use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
 
 my $t = Test::Mojo->new('Test2');
-$t->ua->max_redirects(1);
+$t->ua->max_redirects(10);
 
 say "\n\nLogin form check start:\n\n";
 

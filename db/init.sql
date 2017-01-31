@@ -25,15 +25,15 @@ DROP TABLE menus;
 
 -- 4 up
 CREATE TABLE menu_items (id integer primary key autoincrement, menu_id integer,
-name text, url text, role_id integer, foreign key(menu_id) references menus(id),
-foreign key(role_id) references roles(id));
-INSERT INTO `menu_items` VALUES (NULL,1,'Home','/',4),
- (NULL,1,'About','#about',4),
- (NULL,1,'Contact','#contact',4),
- (NULL,1,'Admin panel','/admin',1),
- (NULL,1,'Log in','/login',5),
- (NULL,1,'Cabinet','#cabinet',6),
- (NULL,1,'Log out','/logout',6);
+name text, url text, role_id integer, main_page integer, foreign key(menu_id)
+references menus(id), foreign key(role_id) references roles(id));
+INSERT INTO `menu_items` VALUES (NULL,1,'Home','/',4,1),
+ (NULL,1,'About','#about',4,0),
+ (NULL,1,'Contact','#contact',4,0),
+ (NULL,1,'Admin panel','/admin',1,0),
+ (NULL,1,'Log in','/login',5,0),
+ (NULL,1,'Cabinet','#cabinet',6,0),
+ (NULL,1,'Log out','/logout',6,0);
 -- 4 down
 DROP TABLE menu_items;
 

@@ -13,7 +13,7 @@ my $query;
 my $results;
 
 my $t = Test::Mojo->new('Test2');
-$t->ua->max_redirects(1);
+$t->ua->max_redirects(10);
 
 say "\n\n Check menu start \n\n";
 say "Check menus list\n";

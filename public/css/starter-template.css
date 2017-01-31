@@ -10,9 +10,6 @@ body {
   width: 200px;
   margin-bottom: 10px;
 }
-.list {
-  text-align: left;
-}
 .user-list-description {
   display: inline-block;
   width: 30%;
@@ -47,21 +44,9 @@ body {
 .article-manage {
   margin-top: 20px;
 }
-.article-new {
-  text-align: left;
-}
-.article-update {
-  text-align: left;
-}
 .menu-description {
   display: inline-block;
   width: 20%;
-}
-.list-item {
-  margin-right: 20px;
-}
-.list-item:last-child {
-  margin-right: 0;
 }
 .menu-item {
   display: inline-block;
@@ -69,4 +54,10 @@ body {
 }
 .menu-list {
   margin-top: 20px;
+}
+.admin {
+  text-align: left;
+}
+.list-item:nth-child(even) {
+  background-color: #D7D7D7;
 }

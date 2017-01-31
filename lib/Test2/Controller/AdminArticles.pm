@@ -35,20 +35,15 @@ sub create {
     return $self->render(msg => '')
       if $validation->has_error;
 
+    $query = 'insert into articles values(NULL, ?, ?, ?, ?, ?, ?)';
+    my $id = $self->db->query($query, $title, $body, $author, $date, $date_update, $url)->last_insert_id;
+
     my $filename = $upload->filename;
     if($filename) {
       $upload->move_to('public/img/'.$filename);
 
       $query = 'INSERT INTO files VALUES(NULL,?,?,?,?)';
-      $self->db->query($query, $filename, 0, 'articles', '/img/'.$filename);
-    }
-
-    $query = 'insert into articles values(NULL, ?, ?, ?, ?, ?, ?)';
-    my $id = $self->db->query($query, $title, $body, $author, $date, $date_update, $url)->last_insert_id;
-
-    if($filename) {
-      $query = 'UPDATE files SET owner_id=? WHERE owner_id=0';
-      $self->db->query($query, $id);
+      $self->db->query($query, $filename, $id, 'articles', '/img/'.$filename);
     }
 
     return $self->redirect_to('/admin/articles');

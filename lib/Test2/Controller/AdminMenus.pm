@@ -44,7 +44,7 @@ sub newItem {
     my $url = $self->param('url');
     my $role = $self->param('role');
 
-    $query = 'insert into menu_items values(NULL,?,?,?,?)';
+    $query = 'insert into menu_items values(NULL,?,?,?,?,0)';
     $self->db->query($query, $id, $name, $url, $role);
 
     return $self->redirect_to('/admin/menus/edit/'.$id);

@@ -1,6 +1,6 @@
 % layout 'default';
 
-%= tag 'div', (class => 'col-md-8') => begin
+%= tag 'div', (class => 'col-md-8 admin') => begin
   %= tag 'h3' => 'Редактирование пункта меню'
   %= tag 'div' => begin
     %= form_for '/admin/menus/edit/'.$menu_id.'/'.$item_id, (method => 'POST') => begin
