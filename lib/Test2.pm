@@ -2,7 +2,7 @@ package Test2;
 use Mojo::Base 'Mojolicious';
 use Mojo::SQLite;
 use Mojo::SQLite::Migrations;
-
+#comment for git push testing
 # This method will run once at server start
 sub startup {
   my $self = shift;
