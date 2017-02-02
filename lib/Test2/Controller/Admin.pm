@@ -22,9 +22,9 @@ sub users {
 sub articles {
   my $self = shift;
 
-  my $query = "select T1.id, substr(T1.title,0,30) as title, T2.email as author,
+  my $query = "select T1.id, substr(T1.title,0,15) as title, T2.email as author,
   datetime(T1.date_create) as date_create, datetime(T1.date_update) as date_update,
-  T1.url from articles as T1 left join users as T2 on T1.author = T2.id";
+  T1.url, T1.draft from articles as T1 left join users as T2 on T1.author = T2.id";
   my $results = $self->db->query($query);
 
   $self->render(list => $results);

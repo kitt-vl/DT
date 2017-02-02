@@ -103,10 +103,10 @@ sub register {
   });
 
   $app->helper(itemExist => sub {
-    my ($c, $table, $id, @args) = @_;
+    my ($c, $table, $column, $value, @args) = @_;
 
-    my $query = 'SELECT * FROM '.$table.' WHERE id=?';
-    my $results = $c->db->query($query, $id);
+    my $query = 'SELECT * FROM '.$table.' WHERE '.$column.'=?';
+    my $results = $c->db->query($query, $value);
     my $hash = $results->hash;
 
     return 1

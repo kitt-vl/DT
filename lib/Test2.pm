@@ -52,6 +52,7 @@ sub startup {
   $r->get('/admin/articles/delete/:id')->over(isAdmin => 1)->to('AdminArticles#delete');
   $r->get('/admin/articles/edit/:id')->over(isAdmin => 1)->to('AdminArticles#edit');
   $r->post('/admin/articles/edit')->over(isAdmin => 1)->to('AdminArticles#update');
+  $r->post('/admin/articles/upload')->over(isAdmin => 1)->to('AdminArticles#upload');
 
   $r->any('/admin/menus/edit/:id')->over(isAdmin => 1)->to('AdminMenus#edit');
   $r->any('/admin/menus/edit/:id/new')->over(isAdmin => 1)->to('AdminMenus#newItem');

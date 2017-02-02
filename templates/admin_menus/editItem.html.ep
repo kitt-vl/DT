@@ -5,9 +5,9 @@
   %= tag 'div' => begin
     %= form_for '/admin/menus/edit/'.$menu_id.'/'.$item_id, (method => 'POST') => begin
       %= tag 'div' => (class => 'list') => begin
-        %= text_field 'name', placeholder => 'Название', (class => 'list-item'), (value => $name)
-        %= text_field 'url', placeholder => 'Url', (class => 'list-item'), value => $url
-        <select class="list-item" name="role">
+        %= text_field 'name', placeholder => 'Название', (value => $name)
+        %= text_field 'url', placeholder => 'Url', value => $url
+        <select name="role">
           % while(my $next = $roles_list->hash) {
             <option value="<%= $next->{id} %>" <% if($role==$next->{id}) { %> selected <% } %>><%= $next->{name} %></option>
           % }

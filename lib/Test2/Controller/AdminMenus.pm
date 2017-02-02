@@ -9,7 +9,7 @@ sub edit {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/menus')
-    if ! $self->itemExist('menus',$id);
+    if ! $self->itemExist('menus','id',$id);
 
   if($self->req->method eq 'POST') {
     my $name = $self->param('title');
@@ -37,7 +37,7 @@ sub newItem {
   my $results;
 
   return $self->redirect_to('/admin/menus')
-    if ! $self->itemExist('menus',$id);
+    if ! $self->itemExist('menus','id',$id);
 
   if($self->req->method eq 'POST') {
     my $name = $self->param('name');
@@ -66,9 +66,9 @@ sub deleteItem {
   my $item_id = $self->param('item_id');
 
   return $self->redirect_to('/admin/menus')
-    if ! $self->itemExist('menus',$menu_id);
+    if ! $self->itemExist('menus','id',$menu_id);
   return $self->redirect_to('/admin/menus/edit/'.$menu_id)
-    if ! $self->itemExist('menu_items',$item_id);
+    if ! $self->itemExist('menu_items','id',$item_id);
 
   my $query = 'DELETE FROM menu_items WHERE menu_id=? AND id=?';
   $self->db->query($query, $menu_id, $item_id);
@@ -82,9 +82,9 @@ sub editItem {
   my $item_id = $self->param('item_id');
 
   return $self->redirect_to('/admin/menus')
-    if ! $self->itemExist('menus',$menu_id);
+    if ! $self->itemExist('menus','id',$menu_id);
   return $self->redirect_to('/admin/menus/edit/'.$menu_id)
-    if ! $self->itemExist('menu_items',$item_id);
+    if ! $self->itemExist('menu_items','id',$item_id);
 
   if($self->req->method eq 'POST') {
     my $name = $self->param('name');
@@ -127,7 +127,7 @@ sub delete {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/menus')
-    if ! $self->itemExist('menus',$id);
+    if ! $self->itemExist('menus','id',$id);
 
   my $query = 'DELETE FROM menus WHERE id=?';
   $self->db->query($query, $id);

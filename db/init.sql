@@ -1,8 +1,7 @@
 -- 1 up
 CREATE TABLE users (id integer primary key autoincrement, email text, password
 text, role_id integer, foreign key(role_id) references roles(id));
-INSERT INTO `users` VALUES (NULL,'admin@mail.ru','f4b42813c7ffa6b505312cc29aa7d840d587d65aa3580e',1),
- (NULL,'user@mail.ru','f4b42813c7ffa6b505312cc29aa7d840d587d65aa3580e',2);
+INSERT INTO `users` VALUES (NULL,'admin@mail.ru','f4b42813c7ffa6b505312cc29aa7d840d587d65aa3580e',1);
 -- 1 down
 DROP TABLE users;
 
@@ -39,9 +38,8 @@ DROP TABLE menu_items;
 
 -- 5 up
 CREATE TABLE articles (id integer primary key autoincrement, title text, body text,
-author integer, date_create text, date_update text, url text unique, foreign key(author)
-references users(id));
-INSERT INTO `articles` VALUES (NULL,'Example title','Example body',1,'2017-01-12T12:47','','/articles/1');
+author integer, date_create text, date_update text, url text unique, draft integer,
+foreign key(author) references users(id)); 
 -- 5 down
 DROP TABLE articles;
 

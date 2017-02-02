@@ -4,19 +4,20 @@
   <h3>Создание статьи</h3>
   <form role="form" method="post" enctype="multipart/form-data" action="/admin/articles/new">
     <div class="article-new">
+      <input type="text" name="id" value="<%= $self->param('id') %>" id="id" hidden>
       <label>
         Название статьи
-        <input type="text" placeholder="Введите название статьи" name="title" value="<%= $self->param('title') %>"/>
+        <input type="text" placeholder="Введите название статьи" name="title" value="<%= $self->param('title') %>" id="title"/>
       </label>
       <br>
       <label>
         Body <br>
-        <textarea name="body">Введите текст статьи</textarea>
+        <textarea name="body" id="body">Введите текст статьи</textarea>
       </label>
       <br>
       <label>
         URL
-        <input type="text" placeholder="/articles/" name="url" value="/articles/" value="<%= $self->param('url') %>"/>
+        <input type="text" placeholder="/articles/" name="url" value="/articles/" value="<%= $self->param('url') %>" id="url"/>
         % if (my $err = validation->error('url')) {
           <p class="bg-danger">
             %== '<span id="empty">Заполните URL</span>' if $err->[0] eq 'required'
@@ -25,13 +26,16 @@
           </p>
         % }
       </label>
+      <br>
       <label>
         Фото статьи
-        <input type="file" name="image" accept="image/*">
+        <input type="file" name="image" accept="image/*" multiple="multiple" id="file-upload">
         % if($msg) {
           <span class="bg-danger"><%= $msg %></span>
         % }
       </label>
+      <ul id="file-upload-result">
+      </ul>
     </div>
     <button type="submit" class="btn btn-info user-edit-btn">Создать статью</button>
   </form>

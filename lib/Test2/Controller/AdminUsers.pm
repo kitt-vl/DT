@@ -9,7 +9,7 @@ sub edit {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/users')
-    if ! $self->itemExist('users',$id);
+    if ! $self->itemExist('users','id',$id);
 
   my $query = "select T1.email, T2.name as role_name from users as T1 left join
   roles as T2 on T1.role_id = T2.id where T1.id = ?";
@@ -24,7 +24,7 @@ sub remove {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/users')
-    if ! $self->itemExist('users',$id);
+    if ! $self->itemExist('users','id',$id);
 
   my $query = "delete from users where id = ?";
   $self->db->query($query, $id);
@@ -41,7 +41,7 @@ sub update {
   my $query;
 
   return $self->redirect_to('/admin/users')
-    if ! $self->itemExist('users',$id);
+    if ! $self->itemExist('users','id',$id);
 
   my $validation = $self->_validation;
   $validation->input({em => $email, pas => $password});

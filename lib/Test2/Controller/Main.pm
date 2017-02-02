@@ -13,6 +13,9 @@ sub main {
   my $query = 'SELECT url FROM menu_items WHERE main_page=1 AND menu_id=1';
   my $url = $self->db->query($query)->hash->{url};
 
+  return $self->render()
+    if($url eq '/');
+
   $self->redirect_to($url);
 }
 
@@ -21,20 +24,20 @@ sub article {
   my $url = '/articles/' . $self->param('url');
   my $source = '';
 
+  return $self->render(template => 'main/error')
+    if ! $self->itemExist('articles','url',$url);
+
   my $query = "select T1.id, T1.title, T2.email as author, datetime(T1.date_create)
-  as date, T1.body, datetime(T1.date_update) as date_update from articles as T1
-  left join users as T2 on T1.author = T2.id where T1.url=?";
+  as date, T1.body, datetime(T1.date_update) as date_update, T1.draft from articles
+  as T1 left join users as T2 on T1.author = T2.id where T1.url=?";
   my $results = $self->db->query($query, $url);
   my $row = $results->hash;
 
-  $query = 'SELECT source FROM files WHERE owner_id=? AND owner_type=?';
-  $results = $self->db->query($query, $row->{id}, 'articles');
-  my $source_row = $results->hash;
-  $source = $source_row->{source}
-    if exists $source_row->{source};
+  return $self->render(template => 'main/error')
+    if $row->{draft};
 
   $self->render(title => $row->{title}, author => $row->{author}, date => $row->{date},
-  body => $row->{body}, update => $row->{date_update}, source => $source);
+  body => $row->{body}, update => $row->{date_update});
 }
 
 sub error {

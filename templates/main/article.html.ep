@@ -5,9 +5,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <h1 class="text-left" id="title"><%= $title %></h1>
-                % if($source) {
-                  <img src="<%= $source %>" height="300px">
-                % }
                 <div class="text text-left">
                     <%== $body %> <br>
                     <span class="date"><% if($update) { %>Отредактировано: <%= $update %> <% } %></span>

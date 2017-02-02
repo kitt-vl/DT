@@ -10,6 +10,9 @@
           <div class="article-description" id="article-description">
             <span class="id"><%= $next->{id} %></span>
             <span class="article-title" id="<%= $next->{id} %>"><%= $next->{title} %></span>...
+            % if($next->{draft}) {
+              <span class="glyphicon glyphicon-file"></span>
+            % }
             <span class="article-author"><%= $next->{author} %></span>
             <span class="article-date"><%= $next->{date_create} %></span>
             <span class="article-date"><sub><%= $next->{date_update} %></sub></span>

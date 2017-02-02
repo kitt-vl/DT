@@ -5,6 +5,8 @@ use Db::MyDB;
 use Digest;
 use DateTime;
 use Mojo::Upload;
+use Data::Printer;
+use File::Spec "catdir catfile";
 
 sub create {
   my $self = shift;
@@ -12,21 +14,13 @@ sub create {
   if($self->req->method eq 'POST') {
     my $title = $self->param('title');
     my $body = $self->param('body');
-    my $email = $self->session('user');
     my $date_update = '';
     my $url = $self->param('url');
-
-    return $self->render(msg => 'Файл слишком большой')
-      if $self->req->is_limit_exceeded;
     my $upload = $self->param('image');
-
-    my $date_temp = DateTime->now;
-    my $date = $date_temp->datetime();
-
+    my $email = $self->session('user');
     my $query = 'select id from users where email=?';
-    my $results = $self->db->query($query, $email);
-    my $row = $results->hash;
-    my $author = $row->{id};
+    my $author = $self->db->query($query, $email)->hash->{id};
+    my $date = DateTime->now->datetime();
 
     my $validation = $self->_validation;
     $validation->input({url => $url});
@@ -35,17 +29,16 @@ sub create {
     return $self->render(msg => '')
       if $validation->has_error;
 
-    $query = 'insert into articles values(NULL, ?, ?, ?, ?, ?, ?)';
-    my $id = $self->db->query($query, $title, $body, $author, $date, $date_update, $url)->last_insert_id;
-
     my $filename = $upload->filename;
     if($filename) {
-      $upload->move_to('public/img/'.$filename);
+      my $id = $self->param('id');
 
-      $query = 'INSERT INTO files VALUES(NULL,?,?,?,?)';
-      $self->db->query($query, $filename, $id, 'articles', '/img/'.$filename);
+      $query = 'UPDATE articles SET title=?, body=?, url=?, draft=1 WHERE id=?';
+      $self->db->query($query, $title, $body, $url, $id);
+    } else {
+      $query = 'insert into articles values(NULL, ?, ?, ?, ?, ?, ?, 0)';
+      my $id = $self->db->query($query, $title, $body, $author, $date, '', $url)->last_insert_id;
     }
-
     return $self->redirect_to('/admin/articles');
   }
 
@@ -66,7 +59,7 @@ sub delete {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/articles')
-    if ! $self->itemExist('articles',$id);
+    if ! $self->itemExist('articles','id',$id);
 
   my $query = 'delete from articles where id=?';
   $self->db->query($query, $id);
@@ -76,7 +69,7 @@ sub delete {
   my $img_row = $results->hash;
   if(exists $img_row->{name}) {
     my $name = $img_row->{name};
-    unlink "c:\\Users\\Darina\\work\\test2\\public\\img\\$name";
+    unlink "..\\public\\img\\$name";
     $query = 'DELETE FROM files WHERE id=?';
     $self->db->query($query, $img_row->{id});
   }
@@ -89,13 +82,16 @@ sub edit {
   my $id = $self->param('id');
 
   return $self->redirect_to('/admin/articles')
-    if ! $self->itemExist('articles',$id);
+    if ! $self->itemExist('articles','id',$id);
 
   my $query = 'select title, body from articles where id=?';
   my $results = $self->db->query($query, $id);
   my $row = $results->hash;
 
-  $self->render(id => $id, title => $row->{title}, body => $row->{body});
+  $query = 'SELECT source FROM files WHERE owner_id=? AND owner_type=?';
+  $results = $self->db->query($query,$id,'articles');
+
+  $self->render(id => $id, title => $row->{title}, body => $row->{body}, file_list => $results);
 }
 
 sub update {
@@ -104,37 +100,80 @@ sub update {
   my $id = $self->param('id');
   my $title = $self->param('title');
   my $body = $self->param('body');
-  my $date_temp = DateTime->now;
-  my $date_update = $date_temp->datetime();
+  my $date_update = DateTime->now->datetime();
+  my $url = $self->param('url');
+
+  return $self->redirect_to('/admin/articles')
+    if ! $self->itemExist('articles','id',$id);
+
+  my $validation = $self->_validation;
+  $validation->input({url => $url});
+  $validation->required('url', 'trim')->like(qr/^\/articles\/.+$/)->uniqueURL;
+
+  return $self->render(template => 'admin_articles/edit', msg => '')
+    if $validation->has_error;
+
+  my $query = "update articles set title=?, body=?, date_update=?, draft=0 where id=?";
+  $self->db->query($query, $title, $body, $date_update, $id);
+
+  $self->redirect_to('/admin/articles');
+}
+
+sub upload {
+  #/admin/articles/upload
+  my $self = shift;
 
   return $self->render(msg => 'Файл слишком большой')
     if $self->req->is_limit_exceeded;
-  my $upload = $self->param('image');
 
-  return $self->redirect_to('/admin/articles')
-    if ! $self->itemExist('articles',$id);
+  my $error = "";
+  my @result;
+  my $query;
 
-  my $query = "update articles set title=?, body=?, date_update=? where id=?";
-  $self->db->query($query, $title, $body, $date_update, $id);
+  my $id = $self->param('id');
+  if(!$id) {
+    my $title = $self->param('title');
+    my $body = $self->param('body');
+    my $email = $self->session('user');
+    $query = 'select id from users where email=?';
+    my $author = $self->db->query($query, $email)->hash->{id};
+    my $date = DateTime->now->datetime();
 
-  my $filename = $upload->filename;
-  if($filename) {
-    $query = 'SELECT id, name FROM files WHERE owner_id=? AND owner_type=?';
-    my $results = $self->db->query($query, $id, 'articles');
-    my $img_row = $results->hash;
-    if(exists $img_row->{name}) {
-      my $name = $img_row->{name};
-      unlink "c:\\Users\\Darina\\work\\test2\\public\\img\\$name";
-      $query = 'DELETE FROM files WHERE id=?';
-      $self->db->query($query, $img_row->{id});
-    }
-
-    $upload->move_to('public/img/'.$filename);
-    $query = 'INSERT INTO files VALUES(NULL,?,?,?,?)';
-    $self->db->query($query, $filename, $id, 'articles', '/img/'.$filename);
+    $query = 'INSERT INTO articles VALUES (NULL,?,?,?,?,?,?,1)';
+    $id = $self->db->query($query,$title,$body,$author,$date,'','')->last_insert_id;
   }
 
-  $self->redirect_to('/admin/articles');
+  for my $upload ( @{$self->req->uploads('image')} ) {
+      say "upload: " . np($upload);
+      my $file_path = File::Spec->catfile($self->app->home, 'public','img', $upload->filename);
+
+      eval { $upload->move_to($file_path) };
+      if ($@) {
+        $error .= "Не удалось загрузить файл " . $upload->filename . " : " . $@ ."\n"
+      }else {
+        my $url = $self->url_for('/img/' . $upload->filename)->to_abs;
+        push(@result, $url);
+
+        $query = 'INSERT INTO files VALUES (NULL,?,?,?,?)';
+        $self->db->query($query,$upload->filename,$id,'articles',$url);
+      }
+  }
+
+  say "result : " .np(@result);
+  if($error) {
+    $self->render(json => {
+      message => $error,
+      error => $error
+    });
+  }else {
+    $self->render( json => {
+      message => 'Файлы успешно загружены на сервер',
+      error => 'undefined',
+      result => \@result,
+      id => $id
+    });
+  }
+
 }
 
 1;
