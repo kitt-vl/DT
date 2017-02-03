@@ -32,7 +32,7 @@ $( document ).ready(function() {
 
       //set info string
       $("#file-upload-info").text("Загружаем файлы ... ");
-      element.prop("disabled","disabled");
+      //element.prop("disabled","disabled");
 
       //upload via ajax
       $.ajax({
@@ -46,11 +46,13 @@ $( document ).ready(function() {
         success: function(data, textStatus, jqXHR){
           //set info string
           $("#file-upload-info").text(data.message);
-          element.removeProp("disabled");
+          //element.removeProp("disabled");
           console.log('data.result : '+data.result);
           $.each(data.result, function(key, val){
-            $("#file-upload-result").append("<li><a href=\""+val+"\">"+val+"</a></li>");
+            $("#file-upload-result").append("<li><a href=\""+val+"\">"+val+"</a></li>"
+          +"<span class='icons'><a class='glyphicon glyphicon-remove' href='/admin/articles/upload/delete/"+id+"/"+data.file_id[key]+"'></a></span>");
           });
+          $("input#id").val(data.id);
         },
         error: function(jqXHR, textStatus, errorThrown){
           // Handle errors here

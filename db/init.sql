@@ -38,8 +38,8 @@ DROP TABLE menu_items;
 
 -- 5 up
 CREATE TABLE articles (id integer primary key autoincrement, title text, body text,
-author integer, date_create text, date_update text, url text unique, draft integer,
-foreign key(author) references users(id)); 
+author integer, date_create text, date_update text, url text, draft integer,
+foreign key(author) references users(id));
 -- 5 down
 DROP TABLE articles;
 

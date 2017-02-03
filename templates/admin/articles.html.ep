@@ -4,25 +4,31 @@
   <h3>Список статей</h3>
   <a class="btn btn-info btn-list" href="/admin/articles/new">Создать статью</a>
   <a class="btn btn-info btn-list" href="/admin/articles/delete">Удалить все статьи</a>
-  <div class="list" id="article-list">
+
     % while(my $next = $list->hash) {
-        <div class="list-item">
-          <div class="article-description" id="article-description">
+  <div class="list-item row" id="article-list">
+          <div class="col-md-5" id="article-description">
             <span class="id"><%= $next->{id} %></span>
-            <span class="article-title" id="<%= $next->{id} %>"><%= $next->{title} %></span>...
+            <a class="article-title" id="<%= $next->{id} %>" href="<%= $next->{url} %>"><%= $next->{title} %></a>
             % if($next->{draft}) {
-              <span class="glyphicon glyphicon-file"></span>
+              <span class="glyphicon glyphicon-file"  title="Черновик"></span>
             % }
+          </div>
+
+          <div class="col-md-4">
             <span class="article-author"><%= $next->{author} %></span>
             <span class="article-date"><%= $next->{date_create} %></span>
             <span class="article-date"><sub><%= $next->{date_update} %></sub></span>
-            <a class="article-url" href="<%= $next->{url} %>">Ссылка</a>
           </div>
-          <span class="icons">
-            <a class="glyphicon glyphicon-pencil" href="<%= '/admin/articles/edit/'.$next->{id} %>"></a>
-            <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/delete/'.$next->{id} %>"></a>
-          </span>
-        </div>
+
+          <div class="col-md-2">
+            <span class="icons">
+              <a class="glyphicon glyphicon-pencil" href="<%= '/admin/articles/edit/'.$next->{id} %>"></a>
+              <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/delete/'.$next->{id} %>"></a>
+            </span>
+          </div>
+
+    </div>
     % }
-  </div>
+
 </div>

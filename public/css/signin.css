@@ -54,3 +54,17 @@ body {
 .form-signin .signup {
   text-align: center;
 }
+
+.article label {
+  width: 100%;
+}
+
+.menu input, .menu select {
+  width: 30%;
+  margin-bottom: 10px;
+}
+
+.user select {
+  width: 30%;
+  margin-top: 10px;
+}

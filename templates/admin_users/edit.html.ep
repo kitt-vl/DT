@@ -2,25 +2,25 @@
 
 <div class="col-md-8 admin">
   <h3>Редактирование пользователя</h3>
-  <form role="form" method="post" action="/admin/users/edit">
+  <form class="user" role="form" method="post" action="/admin/users/edit">
     <div class="user-update" id="user-update">
       <label>
         ID
-        <input type="text" value="<%= $id %>" disabled />
+        <input class="form-control" type="text" value="<%= $id %>" disabled />
       </label>
       <input type="text" value="<%= $id %>" name="id" hidden />
       <br>
       <label>
         Email
-        <input type="text" value="<%= $email %>" name="email" />
+        <input class="form-control" type="text" value="<%= $email %>" name="email" />
       </label>
       <br>
       <label>
         New password
-        <input type="text" name="password">
+        <input class="form-control" type="text" name="password">
       </label>
       <br>
-      <select name="role">
+      <select class="form-control" name="role">
         <optgroup label="Role">
             <option value="1" <% if ($role eq 'administrator') { %> selected <% } %> >Administrator</option>
             <option value="2" <% if ($role eq 'user') { %> selected <% } %> >User</option>
@@ -28,7 +28,7 @@
         </optgroup>
       </select>
     </div>
-    <button type="submit" class="btn btn-info user-edit-btn">Update user</button>
+    <button type="submit" class="btn btn-info btn-list">Update user</button>
     <p class="bg-danger">NO VALIDATION, ALL CHANGES ON YOUR FAULT</p>
   </form>
 </div>

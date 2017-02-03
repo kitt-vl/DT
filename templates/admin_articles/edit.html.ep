@@ -2,17 +2,17 @@
 
 <div class="col-md-8 admin">
   <h3>Редактирование статьи</h3>
-  <form role="form" method="post" enctype="multipart/form-data" action="/admin/articles/edit">
+  <form class="article" role="form" method="post" enctype="multipart/form-data" action="/admin/articles/edit">
     <div class="article-update">
       <label>
         ID
-        <input type="text" value="<%= $id %>" disabled />
+        <input class="form-control" type="text" value="<%= $id %>" disabled />
       </label>
       <input type="text" value="<%= $id %>" name="id" hidden id="id"/>
       <br>
       <label>
         Title
-        <input type="text" value="<%= $title %>" name="title" id="title"/>
+        <input class="form-control form-title" type="text" value="<%= $title %>" name="title" id="title"/>
       </label>
       <br>
       <label>
@@ -22,7 +22,7 @@
       <br>
       <label>
         URL
-        <input type="text" placeholder="/articles/" name="url" value="/articles/" value="<%= $self->param('url') %>" id="url"/>
+        <input class="form-control" type="text" placeholder="/articles/" name="url" value="<%= $url %>" id="url"/>
         % if (my $err = validation->error('url')) {
           <p class="bg-danger">
             %== '<span id="empty">Заполните URL</span>' if $err->[0] eq 'required'
@@ -43,6 +43,9 @@
       % while(my $next = $file_list->hash) {
         <li>
           %= link_to $next->{source} => $next->{source}
+          <span class="icons">
+            <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/upload/delete/'.$id.'/'.$next->{id} %>"></a>
+          </span>
         </li>
       % }
     </ul>

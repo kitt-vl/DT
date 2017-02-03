@@ -3,11 +3,11 @@
 %= tag 'div', (class => 'col-md-8 admin') => begin
   %= tag 'h3' => 'Создание нового пункта меню'
   %= tag 'div' => begin
-    %= form_for '/admin/menus/edit/'.$id.'/new', (method => 'POST') => begin
+    %= form_for '/admin/menus/edit/'.$id.'/new', (method => 'POST'), (class => 'menu') => begin
       %= tag 'div' => (class => 'list') => begin
-        %= text_field 'name', placeholder => 'Название', (class => 'list-item')
-        %= text_field 'url', placeholder => 'Url', (class => 'list-item')
-        <select class="list-item" name="role">
+        %= text_field 'name', placeholder => 'Название', (class => 'form-control')
+        %= text_field 'url', placeholder => 'Url', (class => 'form-control')
+        <select class="form-control" name="role">
           % while(my $next = $roles_list->hash) {
             <option value="<%= $next->{id} %>"><%= $next->{name} %></option>
           % }

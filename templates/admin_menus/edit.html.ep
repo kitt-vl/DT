@@ -6,7 +6,7 @@
     <form method="post" action="<%= '/admin/menus/edit/'.$id %>">
       <label>
         Название меню
-        <input type="text" placeholder="Название меню" value="<%= $name %>" name="title">
+        <input class="form-control" type="text" placeholder="Название меню" value="<%= $name %>" name="title">
       </label>
       <button class="btn btn-info" type="submit">Изменить</button>
     </form>

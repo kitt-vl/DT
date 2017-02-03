@@ -1,17 +1,20 @@
 %layout 'default';
 
 <form class="form-signup" role="form" method="post" action="/signup">
-  <h2 class="form-signin-heading">Please sign in</h2>
-  <input type="text" class="form-control" placeholder="Email address"
+  <h2 class="form-signin-heading">Регистрация</h2>
+  <input type="text" class="form-control" placeholder="Адрес email"
   name="email" value="<%= $self->param('email') %>" autofocus>
-  <input type="password" class="form-control pas-1" placeholder="Password"
+  <input type="password" class="form-control pas-1" placeholder="Пароль"
   name="password">
-  <input type="password" class="form-control pas-2" placeholder="Repeat password"
+  <input type="password" class="form-control pas-2" placeholder="Пароль еще раз"
   name="password2">
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+  <div class="clearfix">
+    &nbsp;
+  </div>
   % if (my $err = validation->error('em')) {
       <p class="bg-danger" id="emailError">
-        %== '<span id="empty">Поле email пустое!</span>' if $err->[0] eq 'required'
+        %== '<span id="empty">Не указан email!</span>' if $err->[0] eq 'required'
         %== '<span id="size">Email должен содержать от 5 до 30 символов!</span>' if $err->[0] eq 'size'
         %== '<span id="regular">Пример email: example@mail.ru</span>' if $err->[0] eq 'emailCheck'
         %== '<span id="registr">Такой пользователь уже существует!</span>' if $err->[0] eq 'uniqueEmail'
@@ -19,10 +22,10 @@
   % }
   % if (my $err = validation->error('pas')) {
       <p class="bg-danger" id="passwordError">
-        %== '<span id="empty">Поле password пустое!</span>' if $err->[0] eq 'required'
-        %== '<span id="repeat">Поля паролей должны совпадать!</span>' if $err->[0] eq 'equal_to'
-        %== '<span id="size">Password должен содержать от 5 до 30 символов!</span>' if $err->[0] eq 'size'
-        %== '<span id="regular">Password может иметь в себе цифры, буквы и знак подчеркивания</span>' if $err->[0] eq 'passwordCheck'
+        %== '<span id="empty">Не указан пароль!</span>' if $err->[0] eq 'required'
+        %== '<span id="repeat">Пароли не совпадают!</span>' if $err->[0] eq 'equal_to'
+        %== '<span id="size">Пароль должен содержать от 5 до 30 символов!</span>' if $err->[0] eq 'size'
+        %== '<span id="regular">Пароль может иметь в себе цифры, буквы и знак подчеркивания</span>' if $err->[0] eq 'passwordCheck'
       </p>
   % }
 </form>

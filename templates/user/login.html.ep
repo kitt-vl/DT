@@ -1,12 +1,12 @@
 % layout 'default';
 
 <form class="form-signin" role="form" method="post" action="/login">
-  <h2 class="form-signin-heading">Please sign in</h2>
-  <input type="text" class="form-control" placeholder="Email address"
+  <h2 class="form-signin-heading">Авторизация</h2>
+  <input type="text" class="form-control" placeholder="Адрес email"
   name="email" value="<%= $self->param('email') %>" autofocus>
-  <input type="password" class="form-control" placeholder="Password"
+  <input type="password" class="form-control" placeholder="Пароль"
   name="password" value="<%= $self->param('password') %>">
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
   % if (my $err = validation->error('em')) {
       <p class="bg-danger" id="emailError">
         %== '<span id="empty">Поле email пустое!</span>'if $err->[0] eq 'required'
@@ -23,5 +23,8 @@
         %== '<span id="registr">Password неверный!</span>' if $err->[0] eq 'passwordRight'
       </p>
   % }
-  <p class="signup"><a href="/signup">Sign up</a></p>
+  <div class="row">
+    или
+  </div>
+  <p class="signup"><a href="/signup">Зарегистрироваться</a></p>
 </form>

@@ -21,7 +21,14 @@ sub login {
     return $self->render()
       if $validation->has_error;
 
-    $self->session(user => $email);
+    my $query = 'SELECT id, email, role_id FROM users WHERE email=?';
+    my $user_hash = $self->db->query($query, $email)->hash;
+
+    $self->session(
+      user => $email,
+      id => $user_hash->{id},
+      role_id => $user_hash->{role_id}
+    );
     return $self->redirect_to('/');
   }
 
