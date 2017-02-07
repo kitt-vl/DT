@@ -11,8 +11,8 @@
       </label>
       <br>
       <label>
-        Body <br>
-        <textarea name="body" id="body">Введите текст статьи</textarea>
+        Тело статьи <br>
+        <textarea class="article" name="body" id="body">Введите текст статьи</textarea>
       </label>
       <br>
       <label>

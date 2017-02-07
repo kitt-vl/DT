@@ -36,19 +36,17 @@ $t->post_ok('/admin/articles/new' => form => {title => '', body => '', url => '/
   ->status_is(200)
   ->element_exists('span[id="regular"]');
 
-my $asset = Mojo::Asset::File->new(path => 'c:\Users\Darina\work\test2\t\image_test.jpg');
-
 say "\nCheck creating new article\n";
-$t->post_ok('/admin/articles/new' => form => {title => 'new', body => 'new', url => '/articles/new',
-image => {
-  filename => 'image_test.jpg',
-  'Content-Type' => 'image/jpg',
-  content => $asset->slurp
+$t->post_ok('/admin/articles/new' => form => {title => 'new', body => 'new',
+url => '/articles/new', image => {
+  filename => '',
+  content => ''
 }})
   ->status_is(200);
 
 say "\nCheck validation url: unique URL\n";
-$t->post_ok('/admin/articles/new' => form => {title => '', body => '', url => '/articles/new'})
+$t->post_ok('/admin/articles/new' => form => {title => '', body => '',
+url => '/articles/new'})
   ->status_is(200)
   ->element_exists('span[id="unique"]');
 
@@ -59,13 +57,12 @@ my $id = $results->hash->{id};
 say "\nCheck new article in list\n";
 $t->get_ok('/admin/articles')
   ->status_is(200)
-  ->text_is('span[id="'.$id.'"]' => 'new');
+  ->text_is('a[id="'.$id.'"]' => 'new');
 
 say "\nCheck page of article\n";
 $t->get_ok('/articles/new')
   ->status_is(200)
-  ->text_is('h1[id="title"]' => 'new')
-  ->element_exists('img');
+  ->text_is('h1[id="title"]' => 'new');
 
 say "\nCheck edit article\n";
 $t->get_ok('/admin/articles/edit/'.$id)
@@ -79,13 +76,9 @@ $t->get_ok('/admin/articles/edit/0')
 
 say "\nCheck update article\n";
 $t->post_ok('/admin/articles/edit' => form => {id => $id, title => 'new2',
-body => 'new2', image => {
-  filename => 'image_test.jpg',
-  'Content-Type' => 'image/jpg',
-  content => $asset->slurp
-}})
+body => 'new2', url => '/articles/new'})
   ->status_is(200)
-  ->text_is('span[id="'.$id.'"]' => 'new2');
+  ->text_is('a[id="'.$id.'"]' => 'new2');
 
 say "\nCheck delete article\n";
 $t->get_ok('/admin/articles/delete/'.$id)

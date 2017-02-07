@@ -4,3 +4,16 @@
   font-family:'Lora', serif;
   font-size:14px;
 }
+
+.intro {
+  margin-bottom: 50px;
+}
+
+.comment-field {
+  width: 50%;
+  margin-bottom: 10px;
+}
+
+.comment-list {
+  margin-bottom: 50px;
+}

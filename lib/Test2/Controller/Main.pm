@@ -37,7 +37,7 @@ sub article {
     if $row->{draft};
 
   $self->render(title => $row->{title}, author => $row->{author}, date => $row->{date},
-  body => $row->{body}, update => $row->{date_update});
+  body => $row->{body}, update => $row->{date_update}, id => $row->{id});
 }
 
 sub error {

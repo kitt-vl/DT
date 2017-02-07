@@ -11,13 +11,13 @@
       <input type="text" value="<%= $id %>" name="id" hidden id="id"/>
       <br>
       <label>
-        Title
+        Название статьи
         <input class="form-control form-title" type="text" value="<%= $title %>" name="title" id="title"/>
       </label>
       <br>
       <label>
-        Body <br>
-        <textarea name="body" id="body"><%= $body %></textarea>
+        Тело статьи <br>
+        <textarea class="article" name="body" id="body"><%= $body %></textarea>
       </label>
       <br>
       <label>
@@ -37,16 +37,18 @@
         <input id="file-upload" class="" multiple="multiple" type="file" name="image" accept="image/*">
       </label>
     </div>
-    <button type="submit" class="btn btn-info article-edit-btn">Update article</button>
+    <button type="submit" class="btn btn-info article-edit-btn">Изменить статью</button>
     <br/><br/>
     <ul id="file-upload-result">
-      % while(my $next = $file_list->hash) {
-        <li>
-          %= link_to $next->{source} => $next->{source}
-          <span class="icons">
-            <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/upload/delete/'.$id.'/'.$next->{id} %>"></a>
-          </span>
-        </li>
+      % if ($check) {
+        % while(my $next = $file_list->hash) {
+          <li>
+            %= link_to $next->{source} => $next->{source}
+            <span class="icons">
+              <a class="glyphicon glyphicon-remove" href="<%= '/admin/articles/upload/delete/'.$id.'/'.$next->{id} %>"></a>
+            </span>
+          </li>
+        % }
       % }
     </ul>
   </form>

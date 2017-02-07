@@ -43,18 +43,20 @@ $( document ).ready(function() {
         dataType: 'json',
         processData: false, // Don't process the files
         contentType: false, // Set content type to false as jQuery will tell the server its a query string request
-        success: function(data, textStatus, jqXHR){
+        success: function(data, textStatus, jqXHR) {
           //set info string
           $("#file-upload-info").text(data.message);
           //element.removeProp("disabled");
           console.log('data.result : '+data.result);
           $.each(data.result, function(key, val){
-            $("#file-upload-result").append("<li><a href=\""+val+"\">"+val+"</a></li>"
-          +"<span class='icons'><a class='glyphicon glyphicon-remove' href='/admin/articles/upload/delete/"+id+"/"+data.file_id[key]+"'></a></span>");
+            $("#file-upload-result").append("<li><a href=\""+val+"\">"+val+"</a>"+
+          "<a class='glyphicon glyphicon-remove icons' "+
+          "href='/admin/articles/upload/delete/"+id+"/"+data.file_id[key]+
+          "'></a></li>");
           });
           $("input#id").val(data.id);
         },
-        error: function(jqXHR, textStatus, errorThrown){
+        error: function(jqXHR, textStatus, errorThrown) {
           // Handle errors here
           $("#file-upload-info").text("Ошибка загрузки файлов: "+textStatus);
           element.removeProp("disabled");

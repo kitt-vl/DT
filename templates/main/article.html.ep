@@ -4,17 +4,43 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <h1 class="text-left" id="title"><%= $title %></h1>
-                <div class="text text-left">
-                    <%== $body %> <br>
-                    <span class="date"><% if($update) { %>Отредактировано: <%= $update %> <% } %></span>
-                </div>
+              <h1 class="text-left" id="title"><%= $title %></h1>
+              <div class="text text-left">
+                  <%== $body %> <br>
+                  <span class="date"><% if($update) { %>Отредактировано: <%= $update %> <% } %></span>
+              </div>
 
-                <div class="intro">
+              <div class="intro">
+                  <p class="text-left"><span class="by">by</span> <a href="#"><%= $author %></a><br>
+                  <span class="date"> <%= $date %></span></p>
+              </div>
 
-                    <p class="text-left"><span class="by">by</span> <a href="#"><%= $author %></a><br>
-                    <span class="date"> <%= $date %></span></p>
-                </div>
+              <ol class="comment-list text-left">
+                <li class="comment even thread-even depth-1">
+                  <div>
+                    <b class="fn">Sr. WordPress</b>
+                  </div>
+                  <time>5 de outubro de 2016 às 19:14</time>
+                  <div class="comment-content">
+                  <p>
+                    Olá, Isto é um comentário.
+                    <br />Para excluir um comentário, faça o login e veja os comentários de posts. Lá você terá a opção de editá-los ou excluí-los.
+                  </p>
+                </li>
+              </ol>
+
+              % if($self->session('user')) {
+              <form class="text-left" method="post" action=<%= "/articles/".$id."/add" %> >
+                <textarea name="body" class="form-control comment-field" rows="10"></textarea>
+                <button class="btn btn-info" type="submit">Отправить</button>
+              </form>
+              % } else {
+              <p class="bg-info">
+                Оставлять комментарии могут только зарегистрированные пользователи! <br>
+                <a href="/login">Войти</a> <br>
+                <a href="/signup">Зарегистрироваться</a>
+              </p>
+              % }
             </div>
         </div>
     </div>

@@ -91,8 +91,16 @@ sub edit {
 
   $query = 'SELECT id, source FROM files WHERE owner_id=? AND owner_type=?';
   $results = $self->db->query($query,$id,'articles');
+  my $check = $results;
+  $check = $check->hash;
+  if(exists $check->{id}) {
+    $check = 1;
+  } else {
+    $check = 0;
+  }
 
-  $self->render(id => $id, title => $row->{title}, body => $row->{body}, url => $row->{url}, file_list => $results);
+  $self->render(id => $id, title => $row->{title}, body => $row->{body},
+  url => $row->{url}, file_list => $results, check => $check);
 }
 
 sub update {
@@ -109,104 +117,35 @@ sub update {
 
   my $validation = $self->_validation;
   $validation->input({url => $url});
-  $validation->required('url', 'trim')->like(qr/^\/articles\/.+$/)->uniqueURL;
+  $validation->required('url', 'trim')->like(qr/^\/articles\/.+$/);
 
-  return $self->render(template => 'admin_articles/edit', msg => '')
+  my $query = 'SELECT url FROM articles WHERE id=?';
+  my $old_url = $self->db->query($query, $id)->hash->{url};
+
+  if($old_url ne $url) {
+    $validation->uniqueURL;
+  }
+
+  $query = 'SELECT id, source FROM files WHERE owner_id=? AND owner_type=?';
+  my $results = $self->db->query($query,$id,'articles');
+  my $check = $results;
+  $check = $check->hash;
+  if(exists $check->{id}) {
+    $check = 1;
+  } else {
+    $check = 0;
+  }
+
+  return $self->render(template => 'admin_articles/edit', msg => '', id => $id,
+  title => $title, body => $body, url => $url, file_list => $results, check =>
+  $check)
     if $validation->has_error;
 
-  my $query = "update articles set title=?, body=?, date_update=?, url=?, draft=0 where id=?";
+  $query = "update articles set title=?, body=?, date_update=?, url=?, draft=0
+  where id=?";
   $self->db->query($query, $title, $body, $date_update, $url, $id);
 
   $self->redirect_to('/admin/articles');
-}
-
-sub upload {
-  #/admin/articles/upload
-  my $self = shift;
-
-  return $self->render(msg => 'Файл слишком большой')
-    if $self->req->is_limit_exceeded;
-
-  my $error = "";
-  my @result;
-  my @id;
-  my $query;
-
-  my $id = $self->param('id');
-  if(!$id) {
-    my $title = $self->param('title');
-    my $body = $self->param('body');
-    my $email = $self->session('user');
-    $query = 'select id from users where email=?';
-    my $author = $self->db->query($query, $email)->hash->{id};
-    my $date = DateTime->now->datetime();
-
-    $query = 'INSERT INTO articles VALUES (NULL,?,?,?,?,?,?,1)';
-    $id = $self->db->query($query,$title,$body,$author,$date,'','')->last_insert_id;
-  }
-  #if(-e $path)
-  for my $upload ( @{$self->req->uploads('image')} ) {
-    my $filename = $upload->filename;
-    my $file_path = File::Spec->catfile($self->app->home, 'public','img', $filename);
-    my $i = 1;
-    while (-f $file_path) {
-      my @file = split(/\./, $filename);
-      $file[0] .= $i;
-      $filename = join('.', @file);
-      $file_path = File::Spec->catfile($self->app->home, 'public','img', $filename);
-      $i++;
-    }
-    eval { $upload->move_to($file_path) };
-
-    if ($@) {
-      $error .= "Не удалось загрузить файл " . $upload->filename . " : " . $@ ."\n"
-    }else {
-      my $url = $self->url_for('/img/' . $filename)->to_abs;
-      push(@result, $url);
-
-      $query = 'INSERT INTO files VALUES (NULL,?,?,?,?)';
-      my $file_id = $self->db->query($query,$filename,$id,'articles',$url)->last_insert_id;
-
-      push(@id, $file_id);
-    }
-  }
-
-  say "result : " .np(@result);
-  if($error) {
-    $self->render(json => {
-      message => $error,
-      error => $error
-    });
-  }else {
-    $self->render( json => {
-      message => 'Файлы успешно загружены на сервер',
-      error => 'undefined',
-      result => \@result,
-      file_id => \@id,
-      id => $id
-    });
-  }
-
-}
-
-sub deleteImage {
-  my $self = shift;
-
-  my $article_id = $self->param('article_id');
-  my $image_id = $self->param('image_id');
-
-  return $self->redirect_to('/admin/articles/edit/'.$article_id)
-    if ! $self->itemExist('files','id',$image_id);
-
-  my $query = 'SELECT name FROM files WHERE id=?';
-  my $name = $self->db->query($query, $image_id)->hash->{name};
-  my $path = File::Spec->catfile($self->app->home, 'public','img', $name);
-  unlink $path;
-
-  $query = 'DELETE FROM files WHERE id=?';
-  $self->db->query($query, $image_id);
-
-  $self->redirect_to('/admin/articles/edit/'.$article_id);
 }
 
 1;
