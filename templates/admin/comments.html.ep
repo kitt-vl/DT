@@ -1,0 +1,13 @@
+% layout 'default';
+
+<div class="col-md-8 admin">
+  <h3>Список комментариев</h3>
+  % while(my $next = $comment_list->hash) {
+    <div class="list-item">
+      <p><b><%= $next->{id} %></b> <%= $next->{author} %>
+      <time><%= $next->{date} %></time></p>
+      <p><%= $next->{body} %></p>
+      <a href="<%= $next->{article_url} %>"><%= $next->{title} %></a>
+    </div>
+  % }
+</div>

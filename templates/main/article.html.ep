@@ -16,22 +16,26 @@
               </div>
 
               <ol class="comment-list text-left">
-                <li class="comment even thread-even depth-1">
-                  <div>
-                    <b class="fn">Sr. WordPress</b>
-                  </div>
-                  <time>5 de outubro de 2016 às 19:14</time>
-                  <div class="comment-content">
-                  <p>
-                    Olá, Isto é um comentário.
-                    <br />Para excluir um comentário, faça o login e veja os comentários de posts. Lá você terá a opção de editá-los ou excluí-los.
-                  </p>
-                </li>
+                % while(my $next = $comment_list->hash) {
+                  <li class="comment even thread-even depth-1">
+                    <div>
+                      <b class="fn"><%= $next->{email} %></b>
+                    </div>
+                    <time><%= $next->{date} %></time>
+                    % if($self->role == 1) {
+                      <a href="<%= '/articles/'.$id.'/delete/'.$next->{id} %>">Удалить</a>
+                    % }
+                    <div class="comment-content">
+                    <p>
+                      %= $next->{body}
+                    </p>
+                  </li>
+                % }
               </ol>
 
               % if($self->session('user')) {
               <form class="text-left" method="post" action=<%= "/articles/".$id."/add" %> >
-                <textarea name="body" class="form-control comment-field" rows="10"></textarea>
+                <textarea name="body" class="form-control comment-field" rows="6"></textarea>
                 <button class="btn btn-info" type="submit">Отправить</button>
               </form>
               % } else {

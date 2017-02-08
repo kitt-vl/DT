@@ -39,4 +39,15 @@ sub menus {
   $self->render(list => $results);
 }
 
+sub comments {
+  my $self = shift;
+
+  my $query = 'SELECT T1.id, T1.body, datetime(T1.date) as date, T2.email as author,
+  T3.title as article, T3.url as article_url FROM comments AS T1 LEFT JOIN users
+  AS T2 ON T1.author_id=T2.id LEFT JOIN articles AS T3 on T1.article_id=T3.id';
+  my $results = $self->db->query($query);
+
+  $self->render(comment_list => $results);
+}
+
 1;

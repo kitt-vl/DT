@@ -36,8 +36,13 @@ sub article {
   return $self->render(template => 'main/error')
     if $row->{draft};
 
+  $query = 'SELECT T1.id, T2.email, datetime(T1.date) as date, T1.body FROM comments as
+  T1 LEFT JOIN users as T2 on T1.author_id = T2.id WHERE T1.article_id=?';
+  $results = $self->db->query($query,$row->{id});
+
   $self->render(title => $row->{title}, author => $row->{author}, date => $row->{date},
-  body => $row->{body}, update => $row->{date_update}, id => $row->{id});
+  body => $row->{body}, update => $row->{date_update}, id => $row->{id},
+  comment_list => $results);
 }
 
 sub error {

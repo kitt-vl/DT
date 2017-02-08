@@ -58,6 +58,7 @@
             <a class="btn btn-info" href="/admin/users">Список пользователей</a>
             <a class="btn btn-info" href="/admin/articles">Список статей</a>
             <a class="btn btn-info" href="/admin/menus">Список меню</a>
+            <a class="btn btn-info" href="/admin/comments">Список комментариев</a>
           </div>
         % }
         <%= content %>

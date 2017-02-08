@@ -42,6 +42,7 @@ sub startup {
   $r->get('/admin/users')->over(isAdmin => 1)->to('Admin#users');
   $r->get('/admin/articles')->over(isAdmin => 1)->to('Admin#articles');
   $r->get('/admin/menus')->over(isAdmin => 1)->to('Admin#menus');
+  $r->get('/admin/comments')->over(isAdmin => 1)->to('Admin#comments');
 
   $r->get('/admin/users/edit/:id')->over(isAdmin => 1)->to('AdminUsers#edit');
   $r->get('/admin/users/remove/:id')->over(isAdmin => 1)->to('AdminUsers#remove');
@@ -56,7 +57,8 @@ sub startup {
   $r->post('/admin/articles/upload')->over(isAdmin => 1)->to('AdminImages#upload');
   $r->get('/admin/articles/upload/delete/:article_id/:image_id')->over(isAdmin => 1)->to('AdminImages#deleteImage');
 
-  $r->get('/articles/:id/add')->to('Comments#add');
+  $r->post('/articles/:id/add')->to('Comments#add');
+  $r->get('/articles/:article_id/delete/:comment_id')->to('Comments#delete');
 
   $r->any('/admin/menus/edit/:id')->over(isAdmin => 1)->to('AdminMenus#edit');
   $r->any('/admin/menus/edit/:id/new')->over(isAdmin => 1)->to('AdminMenus#newItem');
