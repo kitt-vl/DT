@@ -1,0 +1,10 @@
+% layout 'default';
+
+<div class="col-md-8 admin">
+  <h3>Редактирование комментария</h3>
+  <form method="post" action="<%= '/admin/comments/edit/'.$comment->{id} %>">
+    <input name="id" class="form-control edit-comment" type="text" value="<%= $comment->{id} %>" readonly>
+    <textarea name="body" rows="6" class="form-control edit-comment"><%= $comment->{body} %></textarea>
+    <button type="submit" class="btn btn-info">Изменить</button>
+  </form>
+</div>

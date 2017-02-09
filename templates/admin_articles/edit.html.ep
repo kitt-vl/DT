@@ -6,9 +6,8 @@
     <div class="article-update">
       <label>
         ID
-        <input class="form-control" type="text" value="<%= $id %>" disabled />
+        <input class="form-control" type="text" value="<%= $id %>" readonly />
       </label>
-      <input type="text" value="<%= $id %>" name="id" hidden id="id"/>
       <br>
       <label>
         Название статьи

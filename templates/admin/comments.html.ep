@@ -3,11 +3,13 @@
 <div class="col-md-8 admin">
   <h3>Список комментариев</h3>
   % while(my $next = $comment_list->hash) {
-    <div class="list-item">
+    <div class="list-item" id="<%= 'comment-'.$next->{id} %>">
       <p><b><%= $next->{id} %></b> <%= $next->{author} %>
-      <time><%= $next->{date} %></time></p>
-      <p><%= $next->{body} %></p>
-      <a href="<%= $next->{article_url} %>"><%= $next->{title} %></a>
+      <time><%= $next->{date} %></time><br>
+      <a href="<%= '/admin/comments/edit/'.$next->{id} %>">Редактировать</a>
+      <a href="<%= '/admin/comments/delete/'.$next->{id} %>">Удалить</a></p>
+      <p id="comment-body"><%= $next->{body} %></p>
+      <a href="<%= $next->{article_url} %>"><%= $next->{article} %></a>
     </div>
   % }
 </div>

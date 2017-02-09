@@ -58,7 +58,9 @@ sub startup {
   $r->get('/admin/articles/upload/delete/:article_id/:image_id')->over(isAdmin => 1)->to('AdminImages#deleteImage');
 
   $r->post('/articles/:id/add')->to('Comments#add');
-  $r->get('/articles/:article_id/delete/:comment_id')->to('Comments#delete');
+  $r->get('/articles/:article_id/delete/:comment_id')->over(isAdmin => 1)->to('Comments#delete');
+  $r->get('/admin/comments/delete/:id')->over(isAdmin => 1)->to('Comments#adminDelete');
+  $r->any('/admin/comments/edit/:id')->over(isAdmin => 1)->to('Comments#edit');
 
   $r->any('/admin/menus/edit/:id')->over(isAdmin => 1)->to('AdminMenus#edit');
   $r->any('/admin/menus/edit/:id/new')->over(isAdmin => 1)->to('AdminMenus#newItem');

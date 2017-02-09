@@ -53,6 +53,9 @@ sub deleteAll {
   my $query = 'delete from articles';
   $self->db->query($query);
 
+  $query = 'delete from comments';
+  $self->db->query($query);
+
   $self->redirect_to('/admin/articles');
 }
 
@@ -74,6 +77,9 @@ sub delete {
     $query = 'DELETE FROM files WHERE id=?';
     $self->db->query($query, $next->{id});
   }
+
+  $query = 'DELETE FROM comments WHERE article_id=?';
+  $self->db->query($query,$id);
 
   $self->redirect_to('/admin/articles');
 }

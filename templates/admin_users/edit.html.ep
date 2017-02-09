@@ -6,9 +6,8 @@
     <div class="user-update" id="user-update">
       <label>
         ID
-        <input class="form-control" type="text" value="<%= $id %>" disabled />
+        <input class="form-control" type="text" value="<%= $id %>" readonly />
       </label>
-      <input type="text" value="<%= $id %>" name="id" hidden />
       <br>
       <label>
         Email

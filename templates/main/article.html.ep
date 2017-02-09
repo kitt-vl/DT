@@ -18,17 +18,14 @@
               <ol class="comment-list text-left">
                 % while(my $next = $comment_list->hash) {
                   <li class="comment even thread-even depth-1">
-                    <div>
-                      <b class="fn"><%= $next->{email} %></b>
+                    <div class="author">
+                      <b><%= $next->{email} %></b>
                     </div>
                     <time><%= $next->{date} %></time>
                     % if($self->role == 1) {
                       <a href="<%= '/articles/'.$id.'/delete/'.$next->{id} %>">Удалить</a>
                     % }
-                    <div class="comment-content">
-                    <p>
-                      %= $next->{body}
-                    </p>
+                    <div class="comment-content"><%= $next->{body} %></div>
                   </li>
                 % }
               </ol>

@@ -32,7 +32,7 @@ sub upload {
     $query = 'INSERT INTO articles VALUES (NULL,?,?,?,?,?,?,1)';
     $id = $self->db->query($query,$title,$body,$author,$date,'','')->last_insert_id;
   }
-  #if(-e $path)
+
   for my $upload ( @{$self->req->uploads('image')} ) {
     my $filename = $upload->filename;
     my $file_path = File::Spec->catfile($self->app->home, 'public','img', $filename);

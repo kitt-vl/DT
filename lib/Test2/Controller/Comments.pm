@@ -49,4 +49,39 @@ sub delete {
   $self->redirect_to($article_url);
 }
 
+sub adminDelete {
+  my $self = shift;
+  my $id = $self->param('id');
+
+  return $self->render(template => 'main/error')
+    if ! $self->itemExist('comments','id',$id);
+
+  my $query = 'DELETE FROM comments WHERE id=?';
+  $self->db->query($query,$id);
+
+  $self->redirect_to('/admin/comments');
+}
+
+sub edit {
+  my $self = shift;
+  my $id = $self->param('id');
+
+  return $self->render(template => 'main/error')
+    if ! $self->itemExist('comments','id',$id);
+
+  if($self->req->method eq 'POST') {
+    my $body = $self->param('body');
+
+    my $query = 'UPDATE comments SET body=? WHERE id=?';
+    $self->db->query($query,$body,$id);
+
+    return $self->redirect_to('/admin/comments');
+  }
+
+  my $query = 'SELECT id,body FROM comments WHERE id=?';
+  my $comment = $self->db->query($query,$id)->hash;
+
+  $self->render(comment => $comment);
+}
+
 1;

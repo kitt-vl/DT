@@ -17,3 +17,8 @@
 .comment-list {
   margin-bottom: 50px;
 }
+
+.edit-comment {
+  width: 50%;
+  margin-bottom: 10px;
+}
