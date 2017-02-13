@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="description">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+<body>
+
+<script type="text/stache" id="wysiwyg-template">
+  <button class="glyphicon glyphicon-bold" ($click)="bold()"></button>
+  <button class="glyphicon glyphicon-italic" ($click)="italic()"></button>
+  <button class="glyphicon glyphicon-text-width" ($click)="underline()"></button>
+  <div id="wysiwyg-div" contenteditable ($input)="copy()">Глупо в России использовать
+  в новогодних мотивах Санта-Клауса. У нас есть Дед Мороз.</div>
+  <textarea id="wysiwyg-textarea"></textarea>
+</script>
+
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<script src="https://unpkg.com/can/dist/global/can.all.js"></script>
+<script src="main.js"></script>
+</body>
+
+</html>
