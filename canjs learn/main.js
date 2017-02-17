@@ -1,46 +1,29 @@
 var AppVM = can.DefineMap.extend({
-  bold: function() {
-    //document.execCommand( 'bold', null, null );
-    var selected = window.getSelection();
-    var text = selected.toString();
-    if(text) {
-      var selRange = selected.getRangeAt(0);
-      var tag = document.createElement('b');
-      tag.innerHTML = text;
-      selRange.deleteContents();
-      selRange.insertNode(tag);
-      this.copy();
-    };
-  },
-  italic: function() {
-    //document.execCommand( 'italic', null, null );
-    var selected = window.getSelection();
-    var text = selected.toString();
-    if(text) {
-      var selRange = selected.getRangeAt(0);
-      var tag = document.createElement('i');
-      tag.innerHTML = text;
-      selRange.deleteContents();
-      selRange.insertNode(tag);
-      this.copy();
-    };
-  },
-  underline: function() {
-    //document.execCommand('underline',null,null);
-    var selected = window.getSelection();
-    var text = selected.toString();
-    if(text) {
-      var selRange = selected.getRangeAt(0);
-      var tag = document.createElement('u');
-      tag.innerHTML = text;
-      selRange.deleteContents();
-      selRange.insertNode(tag);
-      this.copy();
-    };
-  },
   copy: function() {
-    document.getElementById('wysiwyg-textarea').value =
-    document.getElementById('wysiwyg-div').innerHTML;
+    $('#wysiwyg-textarea').text($('#wysiwyg-div').html());
+  },
+  format: function(tag) {
+    var selected = window.getSelection();
+    var selRange = selected.getRangeAt(0);
+
+    var df = selRange.cloneContents();
+    var div = document.createElement("div");
+    div.appendChild(df);
+    var text = div.innerHTML;
+    console.log(text);
+
+    if(text) {
+      // проверка на уже существующее форматирование
+      var $div = $(div);
+
+
+      // добавление форматирования
+      var tag = document.createElement(tag);
+      tag.innerHTML = text;
+      selRange.deleteContents();
+      selRange.insertNode(tag);
+      this.copy();
+    }
   }
 });
 
